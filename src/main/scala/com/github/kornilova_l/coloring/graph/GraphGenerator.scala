@@ -30,6 +30,10 @@ class GraphGenerator(size: Int, maximumDegree: Int, density: Float = 0.8f) {
 
       }
     }
-    new Graph(nodeIds, (for ((key, value) <- connections) yield key -> value.toSet) toMap)
+    new Graph(
+      nodeIds,
+      (for ((key, value) <- connections) yield key -> value.toSet) toMap,
+      (for (id <- nodeIds) yield id -> id) toMap
+    )
   }
 }

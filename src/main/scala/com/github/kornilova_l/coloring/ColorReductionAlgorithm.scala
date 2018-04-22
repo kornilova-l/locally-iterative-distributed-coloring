@@ -18,7 +18,7 @@ class ColorReductionAlgorithm(graph: Graph) {
     else if (i == 2) true
     else !(2 until i).exists(x => i % x == 0)
 
-  def reduceColors(): Unit = {
+  def reduceColors(): Graph = {
     while (!allNodesTerminated()) {
       colorNodes.foreach { case (_, colorNode) =>
         if (colorNode.hasConflict)
@@ -27,6 +27,12 @@ class ColorReductionAlgorithm(graph: Graph) {
           colorNode.a = 0
       }
     }
+    new Graph(
+      (for ((id, _) <- colorNodes) yield id) toSet,
+      for ((id, colorNode) <- colorNodes) yield id -> colorNode.node.neighbours,
+      for ((id, colorNode) <- colorNodes) yield id -> colorNode.b
+
+    )
   }
 
   def allNodesTerminated(): Boolean = colorNodes.forall { case (_, colorNode) => colorNode.terminated }
